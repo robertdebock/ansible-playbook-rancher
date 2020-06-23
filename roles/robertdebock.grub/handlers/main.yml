@@ -1,0 +1,11 @@
+---
+# handlers file for grub
+- name: update grub
+  command: "{{ grub_update_grub_command }}"
+  when:
+    - ansible_connection != "docker"
+  notify: 
+    - reboot
+
+- name: reboot
+  reboot:

@@ -1,0 +1,22 @@
+---
+- name: Verify
+  hosts: all
+  become: yes
+  gather_facts: yes
+
+  tasks:
+    - name: install pip module
+      pip:
+        name: ansible
+        state: present
+
+    - name: check if bootstrap still works.
+      include_role:
+        name: robertdebock.bootstrap
+
+    - name: check if requested modules can be installed
+      include_role:
+        name: ansible-role-python_pip
+      vars:
+        python_pip_modules:
+          - name: ansible-lint
