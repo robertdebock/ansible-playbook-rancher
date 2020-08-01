@@ -54,6 +54,13 @@ For verification `molecule/resources/verify.yml` run after the role has been app
         - name: requested job by the weekday
           weekday: "1"
           job: "ls -alh > /dev/null"
+        - name: requested job by specific user
+          hour: "23"
+          job: "ls -alh > /dev/null"
+          user: "root"
+        - name: requested job every 5 minutes
+          minute: "*/5"
+          job: "ls -alh > /dev/null"
 ```
 
 Also see a [full explanation and example](https://robertdebock.nl/how-to-use-these-roles.html) on how to use these roles.
@@ -138,6 +145,10 @@ image="debian" tag="stable" tox
 ## [License](#license)
 
 Apache-2.0
+
+## [Contributors](#contributors)
+
+I'd like to thank everybody that made contributions to this repository. It motivates me, improves the code and is just fun to collaborate.
 
 
 ## [Author Information](#author-information)

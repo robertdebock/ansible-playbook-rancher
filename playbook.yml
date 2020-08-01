@@ -46,10 +46,6 @@
       until: list_registration_tokens is succeeded
       retries: 3
 
-    # - name: show list_registration_tokens
-    #   debug:
-    #     msg: "{{ list_registration_tokens }}"
-
     - name: create registration token
       uri: 
         url: "http://{{ ansible_default_ipv4.address }}:8080/v2-beta/projects/1a5/registrationTokens/"
@@ -64,20 +60,12 @@
       changed_when:
         - create_registration_token == 201
 
-    # - name: show create_registration_token
-    #   debug:
-    #     msg: "{{ create_registration_token }}"
-
     - name: list registration tokens
       uri:
         url: "http://{{ ansible_default_ipv4.address }}:8080/v2-beta/registrationtokens"
       register: list_registration_tokens
       until: list_registration_tokens is succeeded
       retries: 3
-
-    # - name: show list_registration_tokens
-    #   debug:
-    #     msg: "{{ list_registration_tokens }}"
 
     - name: save first registrationurl and image
       set_fact:
@@ -116,6 +104,6 @@
   gather_facts: no
 
   tasks:
-    - name: show hint
+    - name: show rancher url
       debug:
         msg: "Please connect to: http://{{ hostvars['node0']['ansible_default_ipv4']['address'] }}:8080/"

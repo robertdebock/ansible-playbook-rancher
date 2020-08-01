@@ -1,0 +1,76 @@
+---
+- name: test if cron_jobs is set correctly
+  assert:
+    that:
+      - cron_jobs | length > 0
+      - cron_jobs is iterable 
+    quiet: yes
+  when:
+    - cron_jobs is defined
+
+- name: test if item in cron_jobs is set correctly
+  assert:
+    that:
+      - item.name is defined
+      - item.name | length > 0
+      - item.job is defined
+      - item.job | length > 0
+    quiet: yes
+  loop: "{{ cron_jobs }}"
+  loop_control:
+    label: "{{ item.name }}"
+  when:
+    - cron_jobs is defined
+
+- name: test if item.minute is set correctly
+  assert:
+    that:
+      - item.minute | int >= 0
+      - item.minute | int <= 59
+    quiet: yes
+  loop: "{{ cron_jobs }}"
+  loop_control:
+    label: "{{ item.name }}"
+  when:
+    - cron_jobs is defined
+    - item.minute is defined
+    - item.minute | int
+
+- name: test if item.hour is set correctly
+  assert:
+    that:
+      - item.hour | int >= 0
+      - item.hour | int <= 23
+    quiet: yes
+  loop: "{{ cron_jobs }}"
+  loop_control:
+    label: "{{ item.name }}"
+  when:
+    - cron_jobs is defined
+    - item.hour is defined
+    - item.hour | int
+
+- name: test if item.weekday is set correctly
+  assert:
+    that:
+      - item.weekday | int
+      - item.weekday | int >= 0
+      - item.weekday | int <= 6
+    quiet: yes
+  loop: "{{ cron_jobs }}"
+  loop_control:
+    label: "{{ item.name }}"
+  when:
+    - cron_jobs is defined
+    - item.weekday is defined
+
+- name: test if item.user is set correctly
+  assert:
+    that:
+      - item.user | length > 0
+    quiet: yes
+  loop: "{{ cron_jobs }}"
+  loop_control:
+    label: "{{ item.name }}"
+  when:
+    - item.user is defined

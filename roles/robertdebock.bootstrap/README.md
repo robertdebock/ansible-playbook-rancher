@@ -88,7 +88,7 @@ This role has been tested on these [container images](https://hub.docker.com/u/r
 |amazon|2018.03|
 |el|7, 8|
 |debian|buster, bullseye|
-|fedora|31, 32, 33|
+|fedora|31, 32|
 |opensuse|all|
 |ubuntu|focal, bionic, xenial|
 
@@ -138,6 +138,16 @@ image="debian" tag="stable" tox
 
 Apache-2.0
 
+## [Contributors](#contributors)
+
+I'd like to thank everybody that made contributions to this repository. It motivates me, improves the code and is just fun to collaborate.
+
+- [rembik](https://github.com/rembik)
+- [jellevandehaterd](https://github.com/jellevandehaterd)
+- [fzarifian](https://github.com/fzarifian)
+- [kmonticolo](https://github.com/kmonticolo)
+- [CrystalStiletto](https://github.com/CrystalStiletto)
+- [infothrill](https://github.com/infothrill)
 
 ## [Author Information](#author-information)
 

@@ -71,15 +71,9 @@ The following roles can be installed to ensure all requirements are met, using `
 ```yaml
 ---
 - robertdebock.bootstrap
-- robertdebock.reboot
 
 ```
 
-## [Dependencies](#dependencies)
-
-Most roles require some kind of preparation, this is done in `molecule/default/prepare.yml`. This role has a "hard" dependency on the following roles:
-
-- robertdebock.reboot
 ## [Context](#context)
 
 This role is a part of many compatible roles. Have a look at [the documentation of these roles](https://robertdebock.nl/) for further information.
@@ -154,6 +148,11 @@ image="debian" tag="stable" tox
 
 Apache-2.0
 
+## [Contributors](#contributors)
+
+I'd like to thank everybody that made contributions to this repository. It motivates me, improves the code and is just fun to collaborate.
+
+- [Tcharl](https://github.com/Tcharl)
 
 ## [Author Information](#author-information)
 

@@ -1,6 +1,25 @@
 # Ansible playbook for Rancher
 
-## Files
+## Setup
+
+Non required, all files are in this repository.
+
+## Starting it.
+
+First, start the machine:
+
+```shell
+vagrant up
+```
+
+Next, apply the playbok:
+```
+ansible-playbook playbook.yml
+```
+
+Finally, login. (URL displayed at the end of the play."
+
+### Files
 
 ```
 .

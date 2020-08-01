@@ -1,12 +1,12 @@
 ---
 # tasks file for cron
+- name: include assert.yml
+  include_tasks: assert.yml
+
 - name: install cron
   package:
     name: "{{ cron_packages }}"
     state: present
-  register: cron_install_cron
-  until: cron_install_cron is succeeded
-  retries: 3
 
 - name: start and enable cron
   service:
@@ -26,6 +26,7 @@
     weekday: "{{ item.weekday | default(omit) }}"
     job: "{{ item.job }}"
     state: "{{ item.state | default('present') }}"
+    user: "{{ item.user | default(omit) }}"
   loop: "{{ cron_jobs }}"
   notify:
     - restart cron
