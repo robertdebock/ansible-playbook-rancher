@@ -2,8 +2,13 @@
 - name: Verify
   hosts: all
   become: no
-  gather_facts: yes
+  gather_facts: no
 
   tasks:
     - name: test connection
       ping:
+
+    - name: try the package module
+      package:
+        name: gzip
+        state: present

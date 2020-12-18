@@ -1,0 +1,10 @@
+{
+  "registry.terraform.io/cloudflare/cloudflare": {
+    "hash": "h1:nWeCWgY39gd00ig5SkTF0nQliQ3X6BgMEZ2OJJYIcRM=",
+    "version": "2.13.2"
+  },
+  "registry.terraform.io/digitalocean/digitalocean": {
+    "hash": "h1:lyke8PM0OcOvzbT6fxEbXc4jQvR9Eo39w1g7GZNEpRI=",
+    "version": "2.2.0"
+  }
+}

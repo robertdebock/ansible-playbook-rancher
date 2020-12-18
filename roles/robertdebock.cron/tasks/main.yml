@@ -1,12 +1,44 @@
 ---
 # tasks file for cron
+
 - name: include assert.yml
   include_tasks: assert.yml
+  run_once: yes
 
 - name: install cron
   package:
     name: "{{ cron_packages }}"
     state: present
+
+- name: configure shell
+  lineinfile:
+    path: "{{ cron_configuration }}"
+    line: "SHELL={{ cron_shell }}"
+    regexp: "^SHELL"
+    create: yes
+    mode: "0644"
+  notify:
+    - restart cron
+
+- name: configure path
+  lineinfile:
+    path: "{{ cron_configuration }}"
+    line: "PATH={{ cron_path }}"
+    regexp: "^PATH"
+    create: yes
+    mode: "0644"
+  notify:
+    - restart cron
+
+- name: configure mailto
+  lineinfile:
+    path: "{{ cron_configuration }}"
+    line: "MAILTO={{ cron_mailto }}"
+    regexp: "^MAILTO"
+    create: yes
+    mode: "0644"
+  notify:
+    - restart cron
 
 - name: start and enable cron
   service:
@@ -28,6 +60,8 @@
     state: "{{ item.state | default('present') }}"
     user: "{{ item.user | default(omit) }}"
   loop: "{{ cron_jobs }}"
+  loop_control:
+    label: "{{ item.name }}"
   notify:
     - restart cron
   when:
