@@ -1,9 +1,32 @@
 #!/usr/bin/env ansible-playbook
 ---
-- name: setup all nodes
+- name: create machines
+  hosts: localhost
+  gather_facts: no
+
+  tasks:
+    - name: apply terraform code
+      terraform:
+        project_path: ./terraform
+        state: present
+      register: terraform
+
+    - name: add terraform hosts to inventory
+      add_host:
+        name: "{{ item }}"
+        groups:
+          - rancher
+      loop: "{{ terraform.outputs.name.value }}"
+
+    - name: wait a moment to allow dns updates
+      pause:
+        seconds: 15
+
+- name: setup rancher node
   hosts: all
   become: yes
-  gather_facts: yes
+  gather_facts: no
+  remote_user: root
 
   roles:
     - role: robertdebock.bootstrap
@@ -19,91 +42,22 @@
           value: 0
     - role: robertdebock.docker
 
-- name: setup node0
-  hosts: node0
-  become: yes
-  gather_facts: yes
+  post_tasks:
+    - name: run grubby
+      command: grubby --update-kernel=ALL --args="systemd.unified_cgroup_hierarchy=0"
+      notify:
+        - reboot
 
-  tasks:
     - name: create rancher server container
       docker_container:
-        name: rancher_server
-        image: rancher/server
-        restart_policy: unless-stopped
+        name: rancher
+        image: rancher/rancher
+        restart_policy: always
+        privileged: yes
         ports:
-          - "8080:8080"
-      notify:
-        - wait for rancher server to be available
-        - wait a little more
-
-    - name: flush handlers
-      meta: flush_handlers
-
-    - name: list registration tokens
-      uri:
-        url: "http://{{ ansible_default_ipv4.address }}:8080/v2-beta/registrationtokens"
-      register: list_registration_tokens
-      until: list_registration_tokens is succeeded
-      retries: 3
-
-    - name: create registration token
-      uri: 
-        url: "http://{{ ansible_default_ipv4.address }}:8080/v2-beta/projects/1a5/registrationTokens/"
-        method: POST
-        status_code:
-          - 201
-      register: create_registration_token
-      until: create_registration_token is succeeded
-      retries: 3
-      when:
-        - list_registration_tokens.json.data | length <= 0
-      changed_when:
-        - create_registration_token == 201
-
-    - name: list registration tokens
-      uri:
-        url: "http://{{ ansible_default_ipv4.address }}:8080/v2-beta/registrationtokens"
-      register: list_registration_tokens
-      until: list_registration_tokens is succeeded
-      retries: 3
-
-    - name: save first registrationurl and image
-      set_fact:
-        registrationurl: "{{ list_registration_tokens.json.data[0].links.registrationUrl | default(create_registration_token.json.data[0].links.registrationUrl) }}"
-        image: "{{ list_registration_tokens.json.data[0].image }}"
+          - "80:80"
+          - "443:443"
 
   handlers:
-    - name: wait for rancher server to be available
-      wait_for:
-        host: 0.0.0.0
-        port: 8080
-
-    - name: wait a little more
-      pause:
-        minutes: 2
-
-- name: setup node1 & node2
-  hosts: all:!node0
-  become: yes
-  gather_facts: yes
-
-  tasks:
-    - name: create rancher agent container
-      docker_container:
-        name: rancher_agent
-        image: "{{ hostvars['node0']['image'] }}"
-        privileged: yes
-        volumes:
-          - "/var/run/docker.sock:/var/run/docker.sock"
-          - "/var/lib/rancher:/var/lib/rancher"
-        command: "{{ hostvars['node0']['registrationurl'] }}"
-
-- name: show hint
-  hosts: localhost
-  become: no
-  gather_facts: no
-
-  tasks:
-    - name: show rancher url
-      debug:
-        msg: "Please connect to: http://{{ hostvars['node0']['ansible_default_ipv4']['address'] }}:8080/"
+    - name: reboot
+      reboot:

@@ -1,10 +1,11 @@
+---
 galaxy_info:
   author: Robert de Bock
   role_name: cron
   description: Install cron and scedule jobs on your system.
   license: Apache-2.0
   company: none
-  min_ansible_version: 2.8
+  min_ansible_version: 2.9
 
   platforms:
     - name: Alpine
@@ -12,7 +13,10 @@ galaxy_info:
         - all
     - name: Amazon
       versions:
-        - 2018.03
+        - all
+    - name: Archlinux
+      versions:
+        - all
     - name: EL
       versions:
         - 7
@@ -23,8 +27,7 @@ galaxy_info:
         - bullseye
     - name: Fedora
       versions:
-        - 31
-        - 32
+        - all
     - name: OpenSUSE
       versions:
         - all
@@ -36,7 +39,7 @@ galaxy_info:
 
   galaxy_tags:
     - cron
-    - centos
-    - redhat
+    - crontab
+    - scheduling
 
 dependencies: []

@@ -15,30 +15,32 @@ on:
 
 jobs:
   lint:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - name: checkout
         uses: actions/checkout@v2
         with:
           path: "${{ github.repository }}"
       - name: molecule
-        uses: robertdebock/molecule-action@2.6.1
+        uses: robertdebock/molecule-action@2.6.3
         with:
           command: lint
   test:
     needs:
       - lint
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     strategy:
       fail-fast: false
       matrix:
         config:
           - image: "alpine"
             tag: "latest"
-          - image: "alpine"
-            tag: "edge"
           - image: "amazonlinux"
             tag: "1"
+          - image: "amazonlinux"
+            tag: "latest"
+          - image: "archlinux"
+            tag: "latest"
           - image: "centos"
             tag: "7"
           - image: "centos"
@@ -48,9 +50,11 @@ jobs:
           - image: "debian"
             tag: "bullseye"
           - image: "fedora"
-            tag: "31"
+            tag: "32"
           - image: "fedora"
             tag: "latest"
+          - image: "fedora"
+            tag: "rawhide"
           - image: "opensuse"
             tag: "latest"
           - image: "ubuntu"
@@ -69,10 +73,7 @@ jobs:
       - name: parse apparmor for mysql
         run: sudo apparmor_parser -R /etc/apparmor.d/usr.sbin.mysqld
       - name: molecule
-        uses: robertdebock/molecule-action@2.6.1
+        uses: robertdebock/molecule-action@2.6.3
         with:
           image: ${{ matrix.config.image }}
           tag: ${{ matrix.config.tag }}
-          options: "--parallel all"
-        env:
-          TOX_PARALLEL_NO_SPINNER: 1

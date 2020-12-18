@@ -1,7 +1,9 @@
 ---
 # tasks file for grub
+
 - name: include assert.yml
   include_tasks: assert.yml
+  run_once: yes
 
 - name: install required packages
   package:
@@ -13,6 +15,16 @@
     path: /etc/default/grub
     line: GRUB_TIMEOUT={{ grub_timeout }}
     create: yes
+    mode: "0664"
+  notify:
+    - update grub
+
+- name: set GRUB_RECORDFAIL_TIMEOUT
+  lineinfile:
+    path: /etc/default/grub
+    line: GRUB_RECORDFAIL_TIMEOUT={{ grub_recordfail_timeout }}
+    create: yes
+    mode: "0664"
   notify:
     - update grub
 
@@ -22,6 +34,7 @@
     regexp: '^GRUB_CMDLINE_LINUX="((:?(?!{{ item.option }}={{ item.value }}).)*?)"$'
     replace: 'GRUB_CMDLINE_LINUX="\1 {{ item.option }}={{ item.value }}"'
     validate: /bin/sh %s
+    mode: "0664"
   loop: "{{ grub_options }}"
   loop_control:
     label: "{{ item.option }}"

@@ -2,19 +2,18 @@
 # tasks file for ntp
 - name: include assert.yml
   include_tasks: assert.yml
+  run_once: yes
 
-- name: install {{ ntp_packages }}
+- name: install ntp packages
   package:
     name: "{{ ntp_packages }}"
     state: present
-  register: ntp_install_ntp
-  until: ntp_install_ntp is succeeded
-  retries: 3
 
 - name: configure /etc/{{ ntp_configuration_file }}
   template:
     src: "{{ ntp_configuration_file }}.j2"
     dest: /etc/{{ ntp_configuration_file }}
+    mode: "0644"
   notify:
     - restart ntp/chrony
 
@@ -22,9 +21,6 @@
   package:
     name: "{{ ntp_timezone_packages }}"
     state: present
-  register: ntp_install_timezone_information
-  until: ntp_install_timezone_information is succeeded
-  retries: 3
 
 - name: configure timezone
   timezone:

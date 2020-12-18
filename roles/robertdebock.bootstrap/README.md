@@ -20,24 +20,6 @@ This example is taken from `molecule/resources/converge.yml` and is tested on ea
     - role: robertdebock.bootstrap
 ```
 
-The machine may need to be prepared using `molecule/resources/prepare.yml`:
-```yaml
-No preparation required.
-```
-
-For verification `molecule/resources/verify.yml` run after the role has been applied.
-```yaml
----
-- name: Verify
-  hosts: all
-  become: no
-  gather_facts: yes
-
-  tasks:
-    - name: test connection
-      ping:
-```
-
 Also see a [full explanation and example](https://robertdebock.nl/how-to-use-these-roles.html) on how to use these roles.
 
 ## [Role Variables](#role-variables)
@@ -55,9 +37,6 @@ bootstrap_wait_for_host: no
 
 # The number of seconds you want to wait during connection test before failing.
 bootstrap_timeout: 3
-
-# The number of retries during installation
-bootstrap_retries: 3
 ```
 
 ## [Requirements](#requirements)
@@ -65,11 +44,6 @@ bootstrap_retries: 3
 - Access to a repository containing packages, likely on the internet.
 - A recent version of Ansible. (Tests run on the current, previous and next release of Ansible.)
 
-The following roles can be installed to ensure all requirements are met, using `ansible-galaxy install -r requirements.yml`:
-
-```yaml
-- none
-```
 
 ## [Context](#context)
 
@@ -85,19 +59,26 @@ This role has been tested on these [container images](https://hub.docker.com/u/r
 |container|tags|
 |---------|----|
 |alpine|all|
-|amazon|2018.03|
+|amazon|all|
 |el|7, 8|
-|debian|buster, bullseye|
-|fedora|31, 32|
+|debian|all|
+|fedora|all|
 |opensuse|all|
-|ubuntu|focal, bionic, xenial|
+|ubuntu|all|
 
-The minimum version of Ansible required is 2.8 but tests have been done to:
+The minimum version of Ansible required is 2.9, tests have been done to:
 
-- The previous version, on version lower.
+- The previous version.
 - The current version.
 - The development version.
 
+## [Exceptions](#exceptions)
+
+Some variarations of the build matrix do not work. These are the variations and reasons why the build won't work:
+
+| variation                 | reason                 |
+|---------------------------|------------------------|
+| alpine:edge | Failed to create temporary directory. |
 
 
 ## [Testing](#testing)

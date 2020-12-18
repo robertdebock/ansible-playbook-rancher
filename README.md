@@ -2,17 +2,7 @@
 
 ## Setup
 
-Non required, all files are in this repository.
-
-## Starting it.
-
-First, start the machine:
-
-```shell
-vagrant up
-```
-
-Next, apply the playbok:
+Apply the playbok:
 ```
 ansible-playbook playbook.yml
 ```
