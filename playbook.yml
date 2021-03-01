@@ -61,6 +61,10 @@
           - "80:80"
           - "443:443"
 
+    - name: show rancher endpoint
+      debug:
+        msg: "Rancher is installed at https://{{ ansible_fqdn }}/"
+
   handlers:
     - name: reboot
       reboot:

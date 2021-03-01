@@ -2,10 +2,37 @@
 
 ## Setup
 
-Apply the playbok:
+1. Download the Ansible roles:
+
+```shell
+ansible-galaxy install -r roles/requirements.yml
+```
+
+2. Download the terraform providers and modules:
+
+```shell
+cd terraform
+terraform init
+```
+
+3. Set the DigitalOcean credentials:
+
+```shell
+export TF_VAR_do_token="REPLACE_ME_WITH_THE_TOKEN"
+```
+
+## Installation
+
+Apply the playbo0k:
 ```
 ./playbook.yml
 ```
+
+This will:
+
+1. Create the infrastructure using Terraform.
+2. Install Docker. (Including all requirements.)
+3. Create the `rancher/rancher` container.
 
 Finally, login. (URL displayed at the end of the play.)
 
@@ -14,10 +41,9 @@ Finally, login. (URL displayed at the end of the play.)
 ```
 .
 ├── ansible.cfg - To tell Ansible how to work.
-├── inventory
-│   └── vagant.py - To "see" the nodes from Vagrant.
 ├── playbook.yml - The playbook to run.
+├── group_vars - Variables used by Ansible.
 ├── roles - Where roles will be stored.
 │   └── requirements.yml - What roles to download.
-└── Vagrantfile - The machines to start.
+└── terraform - A description of the infrastrucure.
 ```
