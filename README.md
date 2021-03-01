@@ -4,10 +4,10 @@
 
 Apply the playbok:
 ```
-ansible-playbook playbook.yml
+./playbook.yml
 ```
 
-Finally, login. (URL displayed at the end of the play."
+Finally, login. (URL displayed at the end of the play.)
 
 ### Files
 
