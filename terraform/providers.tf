@@ -1,8 +1,12 @@
-variable "cf_api_key" {}
-
-variable "cf_email" {}
+# cloudflare
+variable "cloudflare_api_token" {}
 
 provider "cloudflare" {
-  api_key = var.cf_api_key
-  email   = var.cf_email
+  api_token = var.cloudflare_api_token
 }
+
+provider "digitalocean" {
+  token = var.do_token
+}
+
+
