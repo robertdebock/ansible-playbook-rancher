@@ -48,6 +48,9 @@
       notify:
         - reboot
 
+    - name: flush handlers
+      meta: flush_handlers
+
     - name: create rancher server container
       docker_container:
         name: rancher
