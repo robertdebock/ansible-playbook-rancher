@@ -2,9 +2,9 @@
 
 Install buildtools on your system.
 
-|Travis|GitHub|Quality|Downloads|Version|
+|GitHub|GitLab|Quality|Downloads|Version|
 |------|------|-------|---------|-------|
-|[![travis](https://travis-ci.com/robertdebock/ansible-role-buildtools.svg?branch=master)](https://travis-ci.com/robertdebock/ansible-role-buildtools)|[![github](https://github.com/robertdebock/ansible-role-buildtools/workflows/Ansible%20Molecule/badge.svg)](https://github.com/robertdebock/ansible-role-buildtools/actions)|[![quality](https://img.shields.io/ansible/quality/22111)](https://galaxy.ansible.com/robertdebock/buildtools)|[![downloads](https://img.shields.io/ansible/role/d/22111)](https://galaxy.ansible.com/robertdebock/buildtools)|[![Version](https://img.shields.io/github/release/robertdebock/ansible-role-buildtools.svg)](https://github.com/robertdebock/ansible-role-buildtools/releases/)|
+|[![github](https://github.com/robertdebock/ansible-role-buildtools/workflows/Ansible%20Molecule/badge.svg)](https://github.com/robertdebock/ansible-role-buildtools/actions)|[![gitlab](https://gitlab.com/robertdebock/ansible-role-buildtools/badges/master/pipeline.svg)](https://gitlab.com/robertdebock/ansible-role-buildtools)|[![quality](https://img.shields.io/ansible/quality/22111)](https://galaxy.ansible.com/robertdebock/buildtools)|[![downloads](https://img.shields.io/ansible/role/d/22111)](https://galaxy.ansible.com/robertdebock/buildtools)|[![Version](https://img.shields.io/github/release/robertdebock/ansible-role-buildtools.svg)](https://github.com/robertdebock/ansible-role-buildtools/releases/)|
 
 ## [Example Playbook](#example-playbook)
 
@@ -37,21 +37,22 @@ Also see a [full explanation and example](https://robertdebock.nl/how-to-use-the
 
 ## [Requirements](#requirements)
 
-- Access to a repository containing packages, likely on the internet.
-- A recent version of Ansible. (Tests run on the current, previous and next release of Ansible.)
+- pip packages listed in [requirements.txt](https://github.com/robertdebock/ansible-role-buildtools/blob/master/requirements.txt).
 
 ## [Status of requirements](#status-of-requirements)
 
-| Requirement | Travis | GitHub |
+The following roles are used to prepare a system. You may choose to prepare your system in another way, I have tested these roles as well.
+
+| Requirement | GitHub | GitLab |
 |-------------|--------|--------|
-| [robertdebock.bootstrap](https://galaxy.ansible.com/robertdebock/bootstrap) | [![Build Status Travis](https://travis-ci.com/robertdebock/ansible-role-bootstrap.svg?branch=master)](https://travis-ci.com/robertdebock/ansible-role-bootstrap) | [![Build Status GitHub](https://github.com/robertdebock/ansible-role-bootstrap/workflows/Ansible%20Molecule/badge.svg)](https://github.com/robertdebock/ansible-role-bootstrap/actions) |
+| [robertdebock.bootstrap](https://galaxy.ansible.com/robertdebock/bootstrap) | [![Build Status GitHub](https://github.com/robertdebock/ansible-role-bootstrap/workflows/Ansible%20Molecule/badge.svg)](https://github.com/robertdebock/ansible-role-bootstrap/actions) | [![Build Status GitLab ](https://gitlab.com/robertdebock/ansible-role-ansible-role-bootstrap/badges/master/pipeline.svg)](https://gitlab.com/robertdebock/ansible-role-bootstrap)
 
 ## [Context](#context)
 
 This role is a part of many compatible roles. Have a look at [the documentation of these roles](https://robertdebock.nl/) for further information.
 
 Here is an overview of related roles:
-![dependencies](https://raw.githubusercontent.com/robertdebock/drawings/artifacts/buildtools.png "Dependency")
+![dependencies](https://raw.githubusercontent.com/robertdebock/ansible-role-buildtools/png/requirements.png "Dependencies")
 
 ## [Compatibility](#compatibility)
 
@@ -60,14 +61,14 @@ This role has been tested on these [container images](https://hub.docker.com/u/r
 |container|tags|
 |---------|----|
 |alpine|all|
-|amazon|all|
+|amazon|Candidate|
 |el|7, 8|
 |debian|buster, bullseye|
 |fedora|all|
 |opensuse|all|
-|ubuntu|focal, bionic, xenial|
+|ubuntu|focal, bionic|
 
-The minimum version of Ansible required is 2.9, tests have been done to:
+The minimum version of Ansible required is 2.10, tests have been done to:
 
 - The previous version.
 - The current version.
@@ -82,39 +83,7 @@ Some variarations of the build matrix do not work. These are the variations and 
 | EL | No package matching 'bison' found available, installed or updated |
 
 
-## [Testing](#testing)
-
-[Unit tests](https://travis-ci.com/robertdebock/ansible-role-buildtools) are done on every commit, pull request, release and periodically.
-
 If you find issues, please register them in [GitHub](https://github.com/robertdebock/ansible-role-buildtools/issues)
-
-Testing is done using [Tox](https://tox.readthedocs.io/en/latest/) and [Molecule](https://github.com/ansible/molecule):
-
-[Tox](https://tox.readthedocs.io/en/latest/) tests multiple ansible versions.
-[Molecule](https://github.com/ansible/molecule) tests multiple distributions.
-
-To test using the defaults (any installed ansible version, namespace: `robertdebock`, image: `fedora`, tag: `latest`):
-
-```
-molecule test
-
-# Or select a specific image:
-image=ubuntu molecule test
-# Or select a specific image and a specific tag:
-image="debian" tag="stable" tox
-```
-
-Or you can test multiple versions of Ansible, and select images:
-Tox allows multiple versions of Ansible to be tested. To run the default (namespace: `robertdebock`, image: `fedora`, tag: `latest`) tests:
-
-```
-tox
-
-# To run CentOS (namespace: `robertdebock`, tag: `latest`)
-image="centos" tox
-# Or customize more:
-image="debian" tag="stable" tox
-```
 
 ## [License](#license)
 

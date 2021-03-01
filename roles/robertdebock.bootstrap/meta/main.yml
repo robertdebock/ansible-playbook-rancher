@@ -5,15 +5,16 @@ galaxy_info:
   description: Prepare your system to be managed by Ansible.
   license: Apache-2.0
   company: none
-  min_ansible_version: 2.9
+  min_ansible_version: "2.10"
 
   platforms:
-    - name: Alpine
-      versions:
-        - all
+    # Broken: idempotence, gather_facts: Failed to create temporary directory.
+    # - name: Alpine
+    #   versions:
+    #     - all
     - name: Amazon
       versions:
-        - all
+        - Candidate
     - name: EL
       versions:
         - 7
@@ -29,7 +30,8 @@ galaxy_info:
         - all
     - name: Ubuntu
       versions:
-        - all
+        - focal
+        - bionic
 
   galaxy_tags:
     - bootstrap
