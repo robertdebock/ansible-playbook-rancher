@@ -15,10 +15,11 @@ cd terraform
 terraform init
 ```
 
-3. Set the DigitalOcean credentials:
+3. Set the DigitalOcean and CloudFlare credentials:
 
 ```shell
-export TF_VAR_do_token="REPLACE_ME_WITH_THE_TOKEN"
+export TF_VAR_do_token="REPLACE_ME_WITH_THE_DO_TOKEN"
+export TF_VAR_cloudflare_api_token="REPLACE_ME_WITH_THE_CF_TOKEN"
 ```
 
 ## Installation
