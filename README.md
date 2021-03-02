@@ -24,7 +24,7 @@ export TF_VAR_cloudflare_api_token="REPLACE_ME_WITH_THE_CF_TOKEN"
 
 ## Installation
 
-Apply the playbo0k:
+Apply the playbook:
 ```
 ./playbook.yml
 ```
