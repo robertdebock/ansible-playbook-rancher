@@ -1,3 +1,3 @@
 output "name" {
-  value = module.record.*.hostname
+  value = cloudflare_record.rancher.hostname
 }

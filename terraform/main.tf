@@ -1,17 +1,15 @@
-module "ssh_key" {
-  source     = "robertdebock/ssh_key/digitalocean"
-  version    = "2.0.0"
-  name       = "Robert de Bock"
-  public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCWswOogkZz/ihQA0lENCwDwSzmtmBWtFwzIzDlfa+eb4rBt6rZBg7enKeMqYtStI/NDneBwZUFBDIMu5zJTbvg7A60/WDhWXZmU21tZnm8K7KREFYOUndc6h//QHig6IIaIwwBZHF1NgXLtZ0qrUUlNU5JSEhDJsObMlPHtE4vFP8twPnfc7hxAnYma5+knU6qTMCDvhBE5tGJdor4UGeAhu+SwSVDloYtt1vGTmnFn8M/OD/fRMksusPefxyshJ37jpB4jY/Z9vzaNHwcj33prwl1b/xRfxr/+KRJsyq+ZKs9u2TVw9g4p+XLdfDtzZ8thR2P3x3MFrZOdFmCbo/5"
+resource "digitalocean_ssh_key" "rancher-demo" {
+  name       = "rancher demo"
+  public_key = file("${path.module}/files/id_rsa.pub")
 }
 
-module "droplet" {
-  source   = "robertdebock/droplet/digitalocean"
-  version  = "1.0.0"
-  name     = "my-droplet-${count.index}"
-  ssh_keys = [module.ssh_key.id]
-  count    = var.amount
-  size     = "s-2vcpu-4gb"
+# Create a new Droplet using the SSH key
+resource "digitalocean_droplet" "rancher-example" {
+  image     = "fedora-32-x64"
+  name      = "rancher.meinit.nl"
+  region    = "ams3"
+  size      = "2gb"
+  ssh_keys  = [digitalocean_ssh_key.rancher-demo.fingerprint]
 }
 
 data "cloudflare_zones" "default" {
@@ -20,12 +18,10 @@ data "cloudflare_zones" "default" {
   }
 }
 
-module "record" {
-  source  = "robertdebock/record/cloudflare"
-  version = "1.0.0"
-  name    = "my-droplet-${count.index}"
-  type    = "A"
-  value   = module.droplet[count.index].ipv4_address
+resource "cloudflare_record" "rancher" {
   zone_id = data.cloudflare_zones.default.zones[0].id
-  count   = var.amount
+  name    = "rancher"
+  value   = digitalocean_droplet.rancher-example.ipv4_address
+  type    = "A"
+  ttl     = 300
 }

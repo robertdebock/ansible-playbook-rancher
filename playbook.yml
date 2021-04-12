@@ -14,10 +14,9 @@
 
     - name: add terraform hosts to inventory
       add_host:
-        name: "{{ item }}"
+        name: "{{ terraform.outputs.name.value }}"
         groups:
           - rancher
-      loop: "{{ terraform.outputs.name.value }}"
 
     - name: wait a moment to allow dns updates
       pause:

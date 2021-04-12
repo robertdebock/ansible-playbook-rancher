@@ -1,0 +1,3 @@
+---
+
+ansible_ssh_private_key_file: "terraform/files/id_rsa"
