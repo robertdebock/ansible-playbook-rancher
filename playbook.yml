@@ -9,6 +9,7 @@
       terraform:
         project_path: ./terraform
         state: present
+        force_init: yes
       register: terraform
 
     - name: add terraform hosts to inventory
@@ -63,7 +64,7 @@
 
     - name: show rancher endpoint
       debug:
-        msg: "Rancher is installed at https://{{ ansible_fqdn }}/"
+        msg: "Rancher is installed at https://{{ inventory_hostname }}/"
 
   handlers:
     - name: reboot
