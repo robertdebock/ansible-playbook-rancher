@@ -8,7 +8,7 @@ resource "digitalocean_droplet" "rancher-example" {
   image     = "fedora-32-x64"
   name      = "rancher.meinit.nl"
   region    = "ams3"
-  size      = "2gb"
+  size      = "4gb"
   ssh_keys  = [digitalocean_ssh_key.rancher-demo.fingerprint]
 }
 
