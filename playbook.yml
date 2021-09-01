@@ -43,10 +43,18 @@
     - role: robertdebock.docker
 
   post_tasks:
+    - name: check cmdline
+      command:
+        cmd: cat /proc/cpuinfo
+      register: cmdline
+      changed_when: no
+
     - name: run grubby
       command: grubby --update-kernel=ALL --args="systemd.unified_cgroup_hierarchy=0"
       notify:
         - reboot
+      when:
+        - '"systemd.unified_cgroup_hierarchy=0" in cmdline.stdout'
 
     - name: flush handlers
       meta: flush_handlers
@@ -60,6 +68,11 @@
         ports:
           - "80:80"
           - "443:443"
+
+    - name: wait for rancher to become available
+      wait_for:
+        host: "{{ inventory_hostname }}"
+        port: 443
 
     - name: show rancher endpoint
       debug:
