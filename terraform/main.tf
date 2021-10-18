@@ -5,7 +5,7 @@ resource "digitalocean_ssh_key" "rancher-demo" {
 
 # Create a new Droplet using the SSH key
 resource "digitalocean_droplet" "rancher-example" {
-  image     = "fedora-32-x64"
+  image     = "rancheros"
   name      = "rancher.meinit.nl"
   region    = "ams3"
   size      = "4gb"
