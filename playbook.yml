@@ -24,15 +24,17 @@
 
 - name: setup rancher node
   hosts: all
-  become: yes
-  gather_facts: yes
-  remote_user: rancher
+  become: no
+  gather_facts: no
+  remote_user: root
 
-  pre_tasks:
-    - name: install python
-      raw: sudo
   roles:
-    - role: robertdebock.ntp
+    - role: robertdebock.bootstrap
+    - role: robertdebock.core_dependencies
+    - role: robertdebock.buildtools
+    - role: robertdebock.epel
+    - role: robertdebock.python_pip
+    - role: robertdebock.docker_ce
 
   tasks:
     - name: create rancher server container
@@ -47,7 +49,7 @@
 
     - name: wait for rancher to become available
       wait_for:
-        host: "{{ inventory_hostname }}"
+        # host: "{{ inventory_hostname }}"
         port: 443
 
     - name: show rancher endpoint

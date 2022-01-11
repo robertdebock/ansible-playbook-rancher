@@ -1,2 +1,7 @@
 ---
-- role: robertdebock.ntp
+  - name: robertdebock.bootstrap
+  - name: robertdebock.buildtools
+  - name: robertdebock.core_dependencies
+  - name: robertdebock.epel
+  - name: robertdebock.python_pip
+  - name: robertdebock.docker_ce

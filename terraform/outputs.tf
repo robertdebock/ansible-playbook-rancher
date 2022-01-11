@@ -1,3 +1,3 @@
 output "name" {
-  value = cloudflare_record.rancher.hostname
+  value = cloudflare_record.rancher_demo.hostname
 }
